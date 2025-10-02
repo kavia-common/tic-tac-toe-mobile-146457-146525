@@ -36,6 +36,10 @@ class MainActivity : Activity() {
     private var scoreX = 0
     private var scoreO = 0
 
+    // Icons (Unicode fallback): ♞ knight for X, ♛ queen for O
+    private val iconKnight = "♞"
+    private val iconQueen = "♛"
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -71,6 +75,8 @@ class MainActivity : Activity() {
         // Accessibility content descriptions
         tiles.forEachIndexed { index, tv ->
             tv.contentDescription = getString(R.string.content_tile, index)
+            // Slightly increase text size for chess icon clarity
+            tv.textSize = 32f
         }
     }
 
@@ -92,7 +98,10 @@ class MainActivity : Activity() {
         if (board[index] != ' ') return
 
         board[index] = currentPlayer
-        tiles[index].text = currentPlayer.toString()
+        tiles[index].apply {
+            text = playerIcon(currentPlayer)
+            setTextColor(playerColor(currentPlayer))
+        }
 
         if (checkWin(currentPlayer)) {
             isGameOver = true
@@ -115,7 +124,6 @@ class MainActivity : Activity() {
         updateScores()
         statusView.text = if (player == 'X') getString(R.string.status_x_wins) else getString(R.string.status_o_wins)
         highlightWinningLine(player)
-        // Disable further interaction after win
     }
 
     private fun onDraw() {
@@ -140,8 +148,8 @@ class MainActivity : Activity() {
             board[i] = ' '
             tiles[i].text = ""
             tiles[i].isEnabled = true
-            // Remove highlight
-            tiles[i].setTextColor(getColorCompat(android.R.color.black))
+            // Reset to neutral text color for empty tiles
+            tiles[i].setTextColor(getColorCompat(R.color.ocean_text))
         }
         isGameOver = false
         currentPlayer = 'X'
@@ -197,11 +205,25 @@ class MainActivity : Activity() {
 
     private fun highlightWinningLine(player: Char) {
         val line = findWinningLine(player) ?: return
-        val color = if (player == 'X') getColorCompat(R.color.ocean_primary) else getColorCompat(R.color.ocean_secondary)
+        val color = playerColor(player)
         line.forEach { index ->
             tiles[index].setTextColor(color)
         }
-        // Optionally disable tiles after win
+        // Disable tiles after win for clarity
         tiles.forEach { it.isEnabled = false }
+    }
+
+    /**
+     * Returns the display icon string for the given player.
+     */
+    private fun playerIcon(player: Char): String {
+        return if (player == 'X') iconKnight else iconQueen
+    }
+
+    /**
+     * Returns the Ocean Professional accent color for the given player.
+     */
+    private fun playerColor(player: Char): Int {
+        return if (player == 'X') getColorCompat(R.color.ocean_primary) else getColorCompat(R.color.ocean_secondary)
     }
 }
