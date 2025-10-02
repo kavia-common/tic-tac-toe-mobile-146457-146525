@@ -1,0 +1,4 @@
+<resources>
+    <!-- Placeholder to satisfy any accidental references to @style/Ocean -->
+    <style name="Ocean" parent="Theme.MaterialComponents.DayNight.NoActionBar" />
+</resources>

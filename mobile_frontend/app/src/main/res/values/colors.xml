@@ -1,0 +1,19 @@
+<resources>
+    <!-- Ocean Professional palette -->
+    <color name="ocean_primary">#2563EB</color>
+    <color name="ocean_primary_variant">#1E40AF</color>
+    <color name="ocean_secondary">#F59E0B</color>
+    <color name="ocean_error">#EF4444</color>
+
+    <color name="ocean_background">#F9FAFB</color>
+    <color name="ocean_surface">#FFFFFF</color>
+    <color name="ocean_text">#111827</color>
+
+    <!-- Neutrals -->
+    <color name="ocean_border">#E5E7EB</color>
+    <color name="ocean_shadow">#1F2937</color>
+
+    <!-- Gradients (stop colors) -->
+    <color name="ocean_grad_start">#3B82F610</color> <!-- blue-500/10 -->
+    <color name="ocean_grad_end">#F9FAFB</color>      <!-- gray-50 -->
+</resources>
